@@ -33,3 +33,9 @@ void cadastrar_produto(void){
 		op = getche();
 	}while ( op!='0' );
 }
+
+/*CORPO DO PROGRAMA*/
+int main(){
+solicitar_dados
+return 0;
+}
