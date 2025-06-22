@@ -12,10 +12,11 @@ typedef  struct
 
 /* PROTÓPIPOS DE FUNÇÕES */
 void cadastrar_produto(void);
+void gravaArq (CARDAPIO reg);
 
 /* CONSTRUÇÃO DAS FUNÇÕES */
 void cadastrar_produto(void){
-  CARDAPIO   c;	
+        CARDAPIO   c;	
 	char      op;
 	do
 	{	/* Captura os dados que serão gravados */
@@ -34,8 +35,27 @@ void cadastrar_produto(void){
 	}while ( op!='0' );
 }
 
+void gravaArq (CARDAPIO reg)
+{	FILE *Arq;
+	/* Abre o arquivo */
+	Arq = fopen ("PRODUTOS.DAT", "a");
+        /*VERIFICA SE O ARQUIVO EXISTE*/
+	if (Arq == NULL)
+	{	printf ("\nERRO AO ABRIR O PRODUTOS.DAT");
+		printf ("\nEndereco lido: %p", Arq);
+		getch();
+		exit(0);
+	}
+        /*MOSTRA O ENDEREÇO DE MEMÓRIA DO ARQUIVO*/
+	printf ("\nEndereco de PRODUTOS.DAT: %p", Arq);
+	/* Grava no arquivo */
+	fwrite ( &reg, sizeof(reg), 1, Arq );
+	/* Fecha o arquivo */
+	fclose(Arq);
+}
+
 /*CORPO DO PROGRAMA*/
 int main(){
-solicitar_dados
+cadastrar_produto();
 return 0;
 }
