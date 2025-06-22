@@ -1,14 +1,5 @@
 /*BIBLIOTECAS*/
-#include <stdio.h>
-#include <string.h>
-
-/* TIPOS PRÉ-DEFINIDOS PELO PROGRAMADOR */
-typedef  struct 
-{
-	int		codprod;
-	char	descrprod[20+1];
-	float	custoprod;
-}CARDAPIO;
+#include "Drive-Thru-Lib.h"
 
 /* PROTÓPIPOS DE FUNÇÕES */
 void cadastrar_produto(void);
