@@ -1,11 +1,13 @@
 // BIBLIOTECAS
 #include <stdio.h>
 #include <locale.h>
-
+#include <stdlib.h> 
+#include <conio.h> 
+#include <string.h>
 // CONSTANTES
 #define TAMANHONOMEPROD 100
 
-// VARI¡VEIS
+// VARI√ÅVEIS
 char op;
 
 // ESTRUTURAS DE DADOS
