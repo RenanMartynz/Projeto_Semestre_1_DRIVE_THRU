@@ -1,80 +1,52 @@
-/* BIBLIOTECAS */
+// BIBLIOTECAS
 #include "Drive-Thru-Lib.h"
 
-/* PROTÓPIPOS DE FUNÇÕES */
-void consulta_menu (void);
+// PROT�TIPOS
+void inicializa_relatorio(void);
+void processa_dados(void);
 
-/*CONSTRUÇÃO DAS FUNÇÕES*/
-void consulta_menu (void)
-{	FILE *Arq;
-
-	CARDAPIO reg;
-
-	char	 opc;
-
-    /* Abre o arquivo para leitura "r" */
-
-	Arq = fopen ("PRODUTOS.DAT", "r");
-
-	if (Arq == NULL)
-
-	{	printf ("\nERRO AO LER PRODUTOS.DAT");
-
-		printf ("\nEndereco lido: %p", Arq);
-
-		getch();
-
-		exit(0);
-
-	}
-
-	/* Enquanto n�o for fim de arquivo (EOF)...*/
-
-	system ("cls");
-
-	printf ("\nCod\tDescricao\tCusto");
-
-	printf ("\n---------------------");
-
-	while ( !feof(Arq) )
-
-	{	/*... leio do arquivo */
-
-		fread ( &reg, sizeof(reg), 1, Arq );
-
-		/* Testa se foi lido EOF */
-
-		if (!feof(Arq))
-
-		{	/* Depois, mostra na tela o conte�do lido */	
-
-			printf ("\n%i\t%s\t R$%.2f", 
-
-			reg.codprod, reg.descrprod, reg.custoprod);
-
-		}
-
-	}
-
-	/* Fecha o arquivo */
-
-	fclose(Arq);
-
-	printf("\nDeseja imprimir o relat�rio? [1=Sim]");
-
-	fflush(stdin); opc=getche();
-
-	if ( opc=='1')
-
-		imprimeRelat();
-
-	getch();
-
+// FUN��ES
+void inicializa_relatorio(void)
+{
+	system("cls");
+	// Abre e/ou cria arquivos
+	Arq = fopen("PRODUTOS.DAT", "rb");
+	Relat = fopen("MENUPRODUTOS.TXT", "w");
+	// Monta cabe��rio do relat�rio
+	fprintf(Relat, "\n==================================================");
+	fprintf(Relat, "\n\t\tMenu de Produtos");
+	fprintf(Relat, "\n==================================================");
+	fprintf(Relat, "\n\tC�digo\tNome\tCusto");
+	fprintf(Relat, "\n==================================================");
 }
 
-/* CORPO DO PROGRAMA */
+void processa_dados(void) 
+{
+	// Valida��o do arquivo
+	if(Arq != NULL)
+	{
+	// Looping registrando todos os produtos no relat�rio
+	while(!feof(Arq))
+	{
+	fread(&produto, sizeof(produto), 1, Arq);
+	if(!feof(Arq))
+	fprintf(Relat, "\n\t%i\t%s\tR$%.2f", produto.Codprod, produto.Nomeprod, produto.Custoprod);
+	}
+	}
+	// Termina a tabela ap�s processado o �ltimo produto
+	fprintf(Relat, "\n==================================================");
+	// Fecha arquivos
+	fclose(Arq);
+	fclose(Relat);
+}
+
+// CORPO DO PROGRAMA 
 int main()
-{  
-  consulta_menu();
-  return 0;
+{
+	setlocale(LC_ALL, "");
+	inicializa_relatorio();
+	processa_dados();
+	// Exibe relat�rio
+	system("notepad MENUPRODUTOS.TXT");
+	return 0;
 }
