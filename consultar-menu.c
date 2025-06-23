@@ -1,31 +1,31 @@
 // BIBLIOTECAS
 #include "Drive-Thru-Lib.h"
 
-// PROTÓTIPOS
+// PROTï¿½TIPOS
 void inicializa_relatorio(void);
 void processa_dados(void);
 
-// FUNÇÔES
+// FUNï¿½ï¿½ES
 void inicializa_relatorio(void)
 {
 	system("cls");
 	// Abre e/ou cria arquivos
 	Arq = fopen("PRODUTOS.DAT", "rb");
 	Relat = fopen("MENUPRODUTOS.TXT", "w");
-	// Monta cabeçário do relatório
+	// Monta cabeï¿½ï¿½rio do relatï¿½rio
 	fprintf(Relat, "\n==================================================");
 	fprintf(Relat, "\n\t\tMenu de Produtos");
 	fprintf(Relat, "\n==================================================");
-	fprintf(Relat, "\n\tCódigo\tNome\tCusto");
+	fprintf(Relat, "\n\tCï¿½digo\tNome\tCusto");
 	fprintf(Relat, "\n==================================================");
 }
 
 void processa_dados(void) 
 {
-	// Validação do arquivo
+	// Validaï¿½ï¿½o do arquivo
 	if(Arq != NULL)
 	{
-	// Loopíng registrando todos os produtos no relatório
+	// Looping registrando todos os produtos no relatï¿½rio
 	while(!feof(Arq))
 	{
 	fread(&produto, sizeof(produto), 1, Arq);
@@ -33,7 +33,7 @@ void processa_dados(void)
 	fprintf(Relat, "\n\t%i\t%s\tR$%.2f", produto.Codprod, produto.Nomeprod, produto.Custoprod);
 	}
 	}
-	// Termina a tabela após processado o último produto
+	// Termina a tabela apï¿½s processado o ï¿½ltimo produto
 	fprintf(Relat, "\n==================================================");
 	// Fecha arquivos
 	fclose(Arq);
@@ -46,7 +46,7 @@ int main()
 	setlocale(LC_ALL, "");
 	inicializa_relatorio();
 	processa_dados();
-	// Exibe relatório
+	// Exibe relatï¿½rio
 	system("notepad MENUPRODUTOS.TXT");
 	return 0;
 }
