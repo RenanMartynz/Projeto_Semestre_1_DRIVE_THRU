@@ -1,10 +1,14 @@
 // BIBLIOTECAS
 #include "Drive-Thru-Lib.h"
 
-// PROTÓTIPOS
+// PROTÃ“TIPOS
 void atendimento (void);
+void adicionar_prod (void);
+void remover_prod (void);
+void finalizar_ped (void);
+void administrar_fila (void);
 
-// FUNÇÕES
+// FUNÃ‡Ã•ES
 void atendimento (void)
 {
 	int tamanho_arquivo, cliente_atual, i=2;
@@ -21,11 +25,15 @@ void atendimento (void)
 	fseek(Arq, (tamanho_arquivo-1)*sizeof(cliente), SEEK_SET);
 	fread(&cliente, sizeof(cliente), 1, Arq);
 	if(strcmp(cliente.Formapgto,"0")==0)
+	{
 		cliente_atual= cliente.Codpgto;
+	}
 	else
+	{
 		cliente_atual= cliente.Codpgto+1;
+	}
 	printf("\n\t\tPedido nro = %03d", cliente_atual);
-	printf("\nCódigo\tProduto\tCusto unitário R$\tQuantidade pedida\tValor do item pedido R$\n");
+	printf("\nCÃ³digo\tProduto\tCusto unitÃ¡rio R$\tQuantidade pedida\tValor do item pedido R$\n");
 	valortotalped = cliente.Valorpgto;
 	do
 	{
@@ -37,19 +45,61 @@ void atendimento (void)
 	while (cliente.Codpgto==cliente_atual);
 	printf("\nTotal da compra:\tR$%.2f", valortotalped);
 	printf("\n==================================================");
-	printf("\n\t1 = registrar mais um produto no pedido");
-	printf("\n\t2 = remover um produto do pedido");
+	printf("\n\t1 = registrar produto no pedido");
+	printf("\n\t2 = remover produto do pedido");
 	printf("\n\t3 = finalizar pedido");
+	printf("\n\t4 = administrar fila");
 	printf("\n\t0 = voltar para menu inicial");
 	printf("\n==================================================");
+	printf("\nEscolha:");
+	do
+	{
+		scanf("%c", opc);
+	}
+	while (opc < '0' || opc >'4');
+	switch(opc) 
+		{
+			case '1':
+				adicionar_prod();
+			break;
+			case '2':
+				remover_prod();
+			break;
+			case '3':
+				finalizar_ped();
+			break;
+			case '4':
+				administrar_fila();
+			break;
+			default:
+				exit(0);
+			break;
+		}
+}
+
+void adicionar_prod (void)
+{
+	
+}
+
+void remover_prod (void)
+{
+	
+}
+
+void finalizar_ped (void)
+{
+	
+}
+
+void administrar_fila (void)
+{
+	
 }
 
 // CORPO DO PROGRAMA
 int main () 
 {
 	atendimento();
-	/*
-	pagamento();
-	fila(); */
 	return 0;
 }
