@@ -4,6 +4,7 @@
 #include <stdlib.h> 
 #include <conio.h> 
 #include <string.h>
+#include <ctype.h>
 // CONSTANTES
 #define TAMANHONOMEPROD 100
 
