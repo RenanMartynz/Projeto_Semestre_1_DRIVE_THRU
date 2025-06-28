@@ -1,11 +1,11 @@
 /*BIBLIOTECAS*/
 #include "Drive-Thru-Lib.h"
 
-/* PROTÓPIPOS DE FUNÇÕES */
+/* PROTOPIPOS DE FUNCOES */
 void cadastrar_produto(void);
 void gravaArq (void);
 
-/* CONSTRUÇÃO DAS FUNÇÕES */
+/* CONSTRUCAO DAS FUNCOES */
 void cadastrar_produto(void){	
 	do
 	{	/* Captura os dados que serão gravados */
@@ -37,7 +37,7 @@ void gravaArq (void)
 		getch();
 		exit(0);
 	}
-        /*MOSTRA O ENDEREÇO DE MEMÓRIA DO ARQUIVO*/
+        /*MOSTRA O ENDEREÇO DE MEMORIA DO ARQUIVO*/
 	printf ("\nEndereco de PRODUTOS.DAT: %p", Arq);
 	/* Grava no arquivo */
 	do{ 
