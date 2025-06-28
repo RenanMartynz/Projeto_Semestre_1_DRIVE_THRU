@@ -43,7 +43,6 @@ void gravaArq (void)
 	/* Grava no arquivo */
 	do{ 
 		fread ( &c, sizeof(c), 1, Arq );
-		codigo_atual ++;
 			if(c.Codprod == 0){
 				fseek(Arq, codigo_atual*sizeof(produto),SEEK_SET);
 				produto.Codprod = codigo_atual + 1;
@@ -51,7 +50,7 @@ void gravaArq (void)
 				fclose(Arq);
 				exit(0);
 			}
-			
+			codigo_atual ++;
 	  }while(!feof(Arq));
 	codigo_atual
 		fwrite ( &produto, sizeof(produto), 1, Arq );
