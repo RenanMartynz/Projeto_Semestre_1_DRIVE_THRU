@@ -7,7 +7,6 @@ void gravaArq (void);
 
 /* CONSTRUÇÃO DAS FUNÇÕES */
 void cadastrar_produto(void){	
-	char      op;
 	do
 	{	/* Captura os dados que serão gravados */
 		system ("cls");
