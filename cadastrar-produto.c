@@ -3,33 +3,34 @@
 
 /* PROTÓPIPOS DE FUNÇÕES */
 void cadastrar_produto(void);
-void gravaArq (CARDAPIO reg);
+void gravaArq (void);
 
 /* CONSTRUÇÃO DAS FUNÇÕES */
-void cadastrar_produto(void){
-        CARDAPIO   c;	
+void cadastrar_produto(void){	
 	char      op;
 	do
 	{	/* Captura os dados que serão gravados */
 		system ("cls");
 		printf ("\nCodigo do produto   : "); 
-		fflush(stdin); scanf ("%i", &c.codprod);
+		fflush(stdin); scanf ("%i", &produto.codprod);
 		printf ("\nDescricao do produto: "); 
-		fflush(stdin); gets(c.descrprod);
+		fflush(stdin); gets(produto.descrprod);
 		printf ("\nCusto do produto    : "); 
-		fflush(stdin); scanf ("%f", &c.custoprod);
+		fflush(stdin); scanf ("%f", &produto.custoprod);
 		/* Grava os dados no arquivo */
-		gravaArq(c);
+		gravaArq(produto);
 		/* Deseja cadastrar outro produto? */
 		printf ("\nDeseja cadastrar outro produto? [0=NAO]:");
 		op = getche();
 	}while ( op!='0' );
 }
 
-void gravaArq (CARDAPIO reg)
-{	FILE *Arq;
+void gravaArq (void)
+{
+	int codigo_atual=0;
+	FILE *Arq;
 	/* Abre o arquivo */
-	Arq = fopen ("PRODUTOS.DAT", "a");
+	Arq = fopen ("PRODUTOS.DAT", "rb+");
         /*VERIFICA SE O ARQUIVO EXISTE*/
 	if (Arq == NULL)
 	{	printf ("\nERRO AO ABRIR O PRODUTOS.DAT");
@@ -40,7 +41,18 @@ void gravaArq (CARDAPIO reg)
         /*MOSTRA O ENDEREÇO DE MEMÓRIA DO ARQUIVO*/
 	printf ("\nEndereco de PRODUTOS.DAT: %p", Arq);
 	/* Grava no arquivo */
-	fwrite ( &reg, sizeof(reg), 1, Arq );
+	do{ 
+		fread ( &produto, sizeof(produto), 1, Arq );
+			if(produto.Codprod){
+				fwrite ( &produto, sizeof(produto), 1, Arq );
+			}
+		
+		
+	  }while(!EOF(Arq));
+	if (codigo_atual==0){
+		fwrite ( &produto, sizeof(produto), 1, Arq );
+	}
+	
 	/* Fecha o arquivo */
 	fclose(Arq);
 }
