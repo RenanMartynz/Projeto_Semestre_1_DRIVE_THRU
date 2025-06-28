@@ -47,8 +47,8 @@ void gravaArq (void)
 				fseek(Arq, codigo_atual*sizeof(produto),SEEK_SET);
 				fwrite ( &produto, sizeof(produto), 1, Arq );
 			}
-		
-		
+		fclose(Arq);
+		exit(0);	
 	  }while(!EOF(Arq));
 	if (codigo_atual==0){
 		fwrite ( &produto, sizeof(produto), 1, Arq );
