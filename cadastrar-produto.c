@@ -7,15 +7,16 @@ void gravaArq (void);
 
 /* CONSTRUCAO DAS FUNCOES */
 void cadastrar_produto(void){	
+	CARDAPIO c;
 	do
 	{	/* Captura os dados que serão gravados */
 		system ("cls");
 		printf ("\nCodigo do produto   : "); 
-		fflush(stdin); scanf ("%i", &produto.codprod);
+		fflush(stdin); scanf ("%i", &produto.Codprod);
 		printf ("\nDescricao do produto: "); 
-		fflush(stdin); gets(produto.descrprod);
+		fflush(stdin); gets(produto.Nomeprod);
 		printf ("\nCusto do produto    : "); 
-		fflush(stdin); scanf ("%f", &produto.custoprod);
+		fflush(stdin); scanf ("%f", &produto.Custoprod);
 		/* Grava os dados no arquivo */
 		gravaArq(produto);
 		/* Deseja cadastrar outro produto? */
@@ -41,8 +42,8 @@ void gravaArq (void)
 	printf ("\nEndereco de PRODUTOS.DAT: %p", Arq);
 	/* Grava no arquivo */
 	do{ 
-		fread ( &produto, sizeof(produto), 1, Arq );
-			if(produto.Codprod == 0){
+		fread ( &c, sizeof(x), 1, Arq );
+			if(c.Codprod == 0){
 				fseek(Arq, codigo_atual*sizeof(produto),SEEK_SET);
 				fwrite ( &produto, sizeof(produto), 1, Arq );
 			}
