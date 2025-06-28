@@ -7,12 +7,12 @@ void gravaArq (void);
 
 /* CONSTRUCAO DAS FUNCOES */
 void cadastrar_produto(void){	
-	
+	int count = 0;
 	do
-	{	/* Captura os dados que serão gravados */
+	{	
+		
+		/* Captura os dados que serão gravados */
 		system ("cls");
-		printf ("\nCodigo do produto   : "); 
-		fflush(stdin); scanf ("%i", &produto.Codprod);
 		printf ("\nDescricao do produto: "); 
 		fflush(stdin); gets(produto.Nomeprod);
 		printf ("\nCusto do produto    : "); 
@@ -22,7 +22,8 @@ void cadastrar_produto(void){
 		/* Deseja cadastrar outro produto? */
 		printf ("\nDeseja cadastrar outro produto? [0=NAO]:");
 		op = getche();
-	}while ( op!='0' );
+		count++;
+	}while ( op!='0' && count < 100 );
 }
 
 void gravaArq (void)
