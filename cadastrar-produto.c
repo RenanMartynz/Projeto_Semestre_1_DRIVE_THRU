@@ -43,6 +43,7 @@ void gravaArq (void)
 	do{ 
 		fread ( &produto, sizeof(produto), 1, Arq );
 			if(produto.Codprod == 0){
+				fseek(Arq, codigo_atual*sizeof(produto),SEEK_SET);
 				fwrite ( &produto, sizeof(produto), 1, Arq );
 			}
 		
