@@ -4,9 +4,10 @@
 /* PROTOPIPOS DE FUNCOES */
 void cadastrar_produto(void);
 void gravaArq (void);
-
+/*variavel*/
+#define MAX_NOME 100
 /* CONSTRUCAO DAS FUNCOES */
-
+#define MAX_NOME 100
 // Remove acentos e caracteres especiais, mantendo apenas letras simples, números e espaços
 void sanitizar_nome(char *str) {
     int i, j = 0;
