@@ -20,10 +20,18 @@ void cadastrar_produto(void){
 		/* Grava os dados no arquivo */
 		gravaArq();
 		/* Deseja cadastrar outro produto? */
+		count++;
+		if (count >= 100) 
+		{ 
+			printf("\nLimite de 100 produtos atingido.\n"); 
+		        break;
+	        }
+
+
 		printf ("\nDeseja cadastrar outro produto? [0=NAO]:");
 		op = getche();
-		count++;
-	}while ( op!='0' && count < 100 );
+		
+	}while ( op!='0');
 }
 
 void gravaArq (void)
