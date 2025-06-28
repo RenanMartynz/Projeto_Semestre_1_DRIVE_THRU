@@ -13,6 +13,7 @@ void cadastrar_produto(void){
 		
 		/* Captura os dados que serão gravados */
 		system ("cls");
+		system("color 2f");
 		printf ("\nDescricao do produto: "); 
 		fflush(stdin); gets(produto.Nomeprod);
 		printf ("\nCusto do produto    : "); 
