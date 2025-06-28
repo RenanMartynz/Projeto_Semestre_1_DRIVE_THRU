@@ -52,7 +52,7 @@ void gravaArq (void)
 			}
 			codigo_atual ++;
 	  }while(!feof(Arq));
-	codigo_atual
+	produto.Codprpd = codigo_atual;
 		fwrite ( &produto, sizeof(produto), 1, Arq );
 	/* Fecha o arquivo */
 	fclose(Arq);
