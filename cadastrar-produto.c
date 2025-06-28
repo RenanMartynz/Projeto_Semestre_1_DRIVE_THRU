@@ -18,7 +18,7 @@ void cadastrar_produto(void){
 		printf ("\nCusto do produto    : "); 
 		fflush(stdin); scanf ("%f", &produto.Custoprod);
 		/* Grava os dados no arquivo */
-		gravaArq(produto);
+		gravaArq();
 		/* Deseja cadastrar outro produto? */
 		printf ("\nDeseja cadastrar outro produto? [0=NAO]:");
 		op = getche();
@@ -50,11 +50,8 @@ void gravaArq (void)
 				exit(0);
 			}
 			
-	  }while(!EOF(Arq));
-	if (codigo_atual==0){
+	  }while(!feof(Arq));
 		fwrite ( &produto, sizeof(produto), 1, Arq );
-	}
-	
 	/* Fecha o arquivo */
 	fclose(Arq);
 }
