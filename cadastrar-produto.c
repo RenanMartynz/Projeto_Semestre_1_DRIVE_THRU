@@ -42,7 +42,7 @@ void gravaArq (void)
 	printf ("\nEndereco de PRODUTOS.DAT: %p", Arq);
 	/* Grava no arquivo */
 	do{ 
-		fread ( &c, sizeof(x), 1, Arq );
+		fread ( &c, sizeof(c), 1, Arq );
 			if(c.Codprod == 0){
 				fseek(Arq, codigo_atual*sizeof(produto),SEEK_SET);
 				fwrite ( &produto, sizeof(produto), 1, Arq );
