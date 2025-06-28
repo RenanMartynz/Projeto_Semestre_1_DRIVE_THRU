@@ -42,7 +42,7 @@ void gravaArq (void)
 	/* Grava no arquivo */
 	do{ 
 		fread ( &produto, sizeof(produto), 1, Arq );
-			if(produto.Codprod){
+			if(produto.Codprod == 0){
 				fwrite ( &produto, sizeof(produto), 1, Arq );
 			}
 		
