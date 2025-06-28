@@ -7,7 +7,7 @@ void gravaArq (void);
 
 /* CONSTRUCAO DAS FUNCOES */
 void cadastrar_produto(void){	
-	CARDAPIO c;
+	
 	do
 	{	/* Captura os dados que serão gravados */
 		system ("cls");
@@ -27,8 +27,8 @@ void cadastrar_produto(void){
 
 void gravaArq (void)
 {
+	CARDAPIO c;
 	int codigo_atual=0;
-	FILE *Arq;
 	/* Abre o arquivo */
 	Arq = fopen ("PRODUTOS.DAT", "rb+");
         /*VERIFICA SE O ARQUIVO EXISTE*/
