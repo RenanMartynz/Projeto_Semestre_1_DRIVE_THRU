@@ -1,14 +1,14 @@
 // BIBLIOTECAS
 #include "Drive-Thru-Lib.h"
 
-// PROTÓTIPOS
+// PROTOTIPOS
 void solicitar_acao(void);
 void gerenciar_acao(void);
 
-// FUNÇÕES
+// FUNCOES
 void solicitar_acao(void) 
 {
-	// Imprime o cabeçário do menu no terminal
+	// Imprime o cabecario do menu no terminal
 	do
 	{
 	system("cls");
@@ -20,20 +20,21 @@ void solicitar_acao(void)
 	printf("\n\t\t2 = consultar menu de produtos");
 	printf("\n\t\t3 = cadastrar produto");
 	printf("\n\t\t4 = remover produto");
+	printf("\n\t\t5 = consultar comanda");
 	printf("\n\t\t0 = sair");
 	printf("\n==================================================");
 	printf("\nEscolha:");
-	// Recebe a escolha da ação desejada
+	// Recebe a escolha da acao desejada
 	op = getche();
-	} while (op < '0' || op > '4');
+	} while (op < '0' || op > '5');
 }
 
 void gerenciar_acao(void)
 {
-	// Leva o usuário para o programa que realizará a ação desejada
+	// Leva o usuario para o programa que realizara a acao desejada
 	switch(op)
 		{
-		case '1':	system ("atendimento");
+		case '1': system ("atendimento");
 			break;
 		case '2': system ("consultar-menu");
 			break;
@@ -41,19 +42,19 @@ void gerenciar_acao(void)
 			break;
 		case '4': system ("remover-produto");
 			break;
+		case '5': system ("consultar-comanda");
+			break;
 		}
 }
 
 // CORPO DO PROGRAMA
 int main () 
 {
-	// Configurar formatação para a localidade padrão do sistema operacional
-	setlocale(LC_ALL,"");
 	do
 	{
 	solicitar_acao();
 	gerenciar_acao();
-	}	// Faz o looping enquanto o usuário não digitar 0, finalizando o programa quando sair.	
+	}	// Faz o looping enquanto o usuario nao digitar 0, finalizando o programa quando sair.	
 	while (op!='0');
 	printf("\nPrograma finalizado.");
 	getch();
