@@ -6,34 +6,54 @@ void cadastrar_produto(void);
 void gravaArq (void);
 
 /* CONSTRUCAO DAS FUNCOES */
-void cadastrar_produto(void){	
-	int count = 0;
-	do
-	{	
-		
-		/* Captura os dados que serão gravados */
-		system ("cls");
-		system("color 2f");
-		printf ("\nDescricao do produto: "); 
-		fflush(stdin); gets(produto.Nomeprod);
-		printf ("\nCusto do produto    : "); 
-		fflush(stdin); scanf ("%f", &produto.Custoprod);
-		/* Grava os dados no arquivo */
-		gravaArq();
-		/* Deseja cadastrar outro produto? */
-		count++;
-		if (count >= 100) 
-		{ 
-			printf("\nLimite de 100 produtos atingido.\n"); 
-		        break;
-	        }
 
-
-		printf ("\nDeseja cadastrar outro produto? [0=NAO]:");
-		op = getche();
-		
-	}while ( op!='0');
+// Remove acentos e caracteres especiais, mantendo apenas letras simples, números e espaços
+void sanitizar_nome(char *str) {
+    int i, j = 0;
+    char ch;
+    for (i = 0; str[i] != '\0'; i++) {
+        ch = str[i];
+        if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') ||
+            (ch >= '0' && ch <= '9') || ch == ' ') {
+            str[j++] = ch;
+        }
+    }
+    str[j] = '\0';
 }
+
+void cadastrar_produto(void) {
+    char op;
+
+    do {
+        system("cls");
+
+        printf("\nDescricao do produto (max 100 caracteres): ");
+        fflush(stdin);
+        fgets(produto.Nomeprod, MAX_NOME, stdin);
+
+        // Remove quebra de linha se estiver presente
+        produto.Nomeprod[strcspn(produto.Nomeprod, "\n")] = '\0';
+
+        // Limpa acentos e caracteres especiais
+        sanitizar_nome(produto.Nomeprod);
+
+        printf("\nCusto do produto    : ");
+        fflush(stdin);
+        scanf("%f", &produto.Custoprod);
+
+        gravaArq();
+
+        printf("\nDeseja cadastrar outro produto? [0=NAO]:");
+        fflush(stdin);
+        op = getche();
+
+    } while (op != '0');
+}
+
+
+
+
+
 
 void gravaArq (void)
 {
