@@ -1,11 +1,11 @@
 // BIBLIOTECAS
 #include "Drive-Thru-Lib.h"
 
-// PROTÓTIPOS
+// PROTÃ“TIPOS
 void solicitar_acao(void);
 void gerenciar_acao(void);
 
-// FUNÇÕES
+// FUNÃ‡Ã•ES
 void solicitar_acao(void) 
 {
 	do
@@ -31,15 +31,15 @@ void gerenciar_acao(void)
 {
 	switch(op)
 		{
-		case 1:	system ("atendimento.c");
+		case 1:	system ("atendimento");
 			break;
-		case 2: system ("fila.c");
+		case 2: system ("fila");
 			break;
-		case 3: system ("consultar-menu.c");
+		case 3: system ("consultar-menu");
 			break;
-		case 4: system ("cadastrar-produto.c");
+		case 4: system ("cadastrar-produto");
 			break;
-		case 5: system ("remover-produto.c");
+		case 5: system ("remover-produto");
 			break;
 		}
 }
