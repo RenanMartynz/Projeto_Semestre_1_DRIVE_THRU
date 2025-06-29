@@ -6,19 +6,20 @@ void cadastrar_produto(void);
 void gravaArq (void);
 
 /* CONSTRUCAO DAS FUNCOES */
-// Remove acentos e caracteres especiais, mantendo apenas letras simples, números e espaços
-void sanitizar_nome(char *str) {
-    int i, j = 0;
-    char ch;
-    for (i = 0; str[i] != '\0'; i++) {
-        ch = str[i];
-        if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') ||
-            (ch >= '0' && ch <= '9') || ch == ' ') {
-            str[j++] = ch;
-        }
+char s;
+
+int valida_simples(char *s) {
+    for (int i = 0; s[i]; i++) {
+        if (!(s[i] >= 'a' && s[i] <= 'z') &&
+            !(s[i] >= 'A' && s[i] <= 'Z') &&
+            !(s[i] >= '0' && s[i] <= '9') &&
+             s[i] != ' ') return 0;
     }
-    str[j] = '\0';
+    return 1;
 }
+
+
+
 
 void cadastrar_produto(void) {
     char op;
@@ -26,15 +27,21 @@ void cadastrar_produto(void) {
     do {
         system("cls");
 	system("color 2f");
-        printf("\nDescricao do produto (max 100 caracteres): ");
-        fflush(stdin);
-        fgets(produto.Nomeprod, TAMANHONOMEPROD, stdin);
 
-        // Remove quebra de linha se estiver presente
-        produto.Nomeprod[strcspn(produto.Nomeprod, "\n")] = '\0';
+	   
+do {
+    printf("\nDescricao do produto (sem acento ou simbolo): ");
+    fflush(stdin);
+    fgets(produto.Nomeprod, sizeof(produto.Nomeprod), stdin);
+    produto.Nomeprod[strcspn(produto.Nomeprod, "\n")] = '\0';
+    
+    if (!valida_simples(produto.Nomeprod))
+        printf("Entrada inválida. Tente novamente.\n");
+} while (!valida_simples(produto.Nomeprod)); 
 
-        // Limpa acentos e caracteres especiais
-        sanitizar_nome(produto.Nomeprod);
+	    
+ 
+	    
 
         printf("\nCusto do produto    : ");
         fflush(stdin);
