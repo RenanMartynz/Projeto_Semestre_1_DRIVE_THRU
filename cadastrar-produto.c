@@ -4,6 +4,7 @@
 /* PROTOPIPOS DE FUNCOES */
 void cadastrar_produto(void);
 void gravaArq (void);
+int valida_simples(char *s);
 
 /* CONSTRUCAO DAS FUNCOES */
 
