@@ -16,6 +16,7 @@ int valida_simples(char *s);
 
 int valida_simples(char *s) {
     int i;
+	/*faz a validacao que so aceita caracteres maisculos,minusculos e numeros*/
     for (i = 0; s[i]; i++) {
         if (!(s[i] >= 'a' && s[i] <= 'z') &&
             !(s[i] >= 'A' && s[i] <= 'Z') &&
@@ -37,14 +38,15 @@ void cadastrar_produto(void) {
 
 	   
 do {
+    /*PEDE A DESCRICAO DO PRODUTO*/
     printf("\nDescricao do produto (sem acento ou simbolo): ");
     fflush(stdin);
     fgets(produto.Nomeprod, sizeof(produto.Nomeprod), stdin);
-    produto.Nomeprod[strcspn(produto.Nomeprod, "\n")] = '\0';
+    produto.Nomeprod[strcspn(produto.Nomeprod, "\n")] = '\0'; // Remove o '\n' adicionado por fgets 
     
-    if (!valida_simples(produto.Nomeprod))
-        printf("Entrada inválida. Tente novamente.\n");
-} while (!valida_simples(produto.Nomeprod)); 
+    if (!valida_simples(produto.Nomeprod)) //verifica se a entrada e invalida
+        printf("Entrada inválida. Tente novamente.\n");// mensagem de erro
+} while (!valida_simples(produto.Nomeprod)); //faz o loop enquanto a descricao nao estiver correta
   
 	do {
     possuiErro = 0;
@@ -55,7 +57,8 @@ do {
 
     printf("\nCusto do produto : ");
     fgets(entrada, 50, stdin);
-
+		
+    // Itera sobre cada caractere da string de entrada ate o final da string ou uma nova linha
     while (entrada[indice] && entrada[indice] != '\n') {
         char caractere = entrada[indice];
 
