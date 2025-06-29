@@ -6,7 +6,6 @@ void cadastrar_produto(void);
 void gravaArq (void);
 
 /* CONSTRUCAO DAS FUNCOES */
-char s;
 
 int valida_simples(char *s) {
     for (int i = 0; s[i]; i++) {
