@@ -4,6 +4,7 @@
 // VARIAVEIS GLOBAIS DO PROGRAMA
 int cliente_atual, i=1, fila[TAMANHOFILA], inicio_fila=0, final_fila=0;
 long  tamanho_arquivo, inicio_pedido, final_pedido; 
+char op2;
 
 // PROTOTIPOS
 void administrar_fila (void);
@@ -37,19 +38,61 @@ void administrar_fila (void)
 
 void finalizar_ped (void)
 {
-	
+	Arq = fopen ("PAGAMENTOS.DAT", "rb+");
+ if (Arq == NULL)
+	{
+		printf("Arquivo PAGAMENTOS.DAT nao foi acessado com sucesso");
+		getch();
+		exit(0);
+	}
+ fseek(Arq, (final_pedido-1)*sizeof(cliente), SEEK_SET);
+ fread(&cliente, sizeof(cliente), 1, Arq);
+ cliente.Formapgto = ***COLOCAR FORMA DE PAGAMENTO***;
+ fseek(Arq, (final_pedido-1)*sizeof(cliente), SEEK_SET);
+ fwrite(&cliente, sizeof(cliente), 1, Arq);
+ // CODIGO DA COBRANÇA DE PAGAMENTO
+ fclose(Arq);
 }
 
 void remover_prod (void)
 {
-	
+	Arq = fopen("PAGAMENTOS.DAT", "rb+");
+ if (Arq == NULL)
+	{
+		printf("Arquivo PAGAMENTOS.DAT nao foi acessado com sucesso");
+		getch();
+		exit(0);
+	} printf("\n==================================================");
+	printf("\n\t\tREMOCAO DE PRODUTO");	printf("\n==================================================");
+	printf("\n\t\tPedido nro = %03d", cliente_atual);
+	printf("\nCodigo pedido\tCodigo\tProduto\tCusto unitario R$\tQuantidade pedida\tValor do item pedido R$\n");
+	fseek(Arq, inicio_pedido*sizeof(cliente), SEEK_SET);
+	for (i=0;final_pedido-inicio_pedido!=i;i++)
+	{
+		fread(&cliente, sizeof(cliente), 1, Arq);
+		printf("\n%i\t%i\t%s\t\tR$%.2f\t\t%i\t\t\tR$%.2f", i+1,
+		cliente.Codprod, cliente.Nomeprod, cliente.Custoprod, cliente.Quantprod, cliente.Valortotalprod);
+	}
+	printf("\nTotal da compra:\tR$%.2f", cliente.Valorpgto);
+	printf("\n==================================================");
+do
+{
+printf("\nCodigo do pedido [0=Voltar]: ");
+}
+	while(scanf("%c", &op2)!=1 && op2 >= 0);
+if (op2 == 0)
+{
+fclose(Arq);
+return;
+}
+fclose(Arq);
+
 }
 
 void adicionar_prod (void)
 {
 	// Processo de acrescimo de produto no pedido
 	int codped, quantped;
-	char op2;
 	system("cls");
 	Arq = fopen("PRODUTOS.DAT", "rb");
 	if (Arq == NULL)
@@ -77,7 +120,7 @@ void adicionar_prod (void)
 	printf("\nCodigo do produto [0=Voltar]: ");
 	fflush(stdin);
 	}
-	while(scanf("%i", &codped)!=1 && codped > 0);
+	while(scanf("%i", &codped)!=1 && codped >= 0);
 	if (codped == 0)
 	{
 		fclose(Arq);
@@ -98,7 +141,7 @@ void adicionar_prod (void)
 	printf("\nQuantidade de %s desejada [0=Voltar]: ", produto.Nomeprod);
 	fflush(stdin);
 	}
-	while(scanf("%i", &quantped)!=1 && quantped > 0);
+	while(scanf("%i", &quantped)!=1 && quantped >= 0);
 	if (quantped == 0)
 	{
 		fclose(Arq);
@@ -204,10 +247,26 @@ void atendimento (void)
 				adicionar_prod();
 			break;
 			case '2':
+   if (inicio_pedido!=final_pedido)
+    {
 				remover_prod();
+    }
+   else
+    {
+    printf("\nNenhum produto para remover");
+    getch();
+    }
 			break;
 			case '3':
+   if (inicio_pedido!=final_pedido)
+    {
 				finalizar_ped();
+    }
+   else
+    {
+				printf("\nNenhum produto no pedido");
+    getch();
+    }
 			break;
 			case '4':
 				administrar_fila();
