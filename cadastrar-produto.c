@@ -8,6 +8,7 @@ void gravaArq (void);
 /* CONSTRUCAO DAS FUNCOES */
 
 int valida_simples(char *s) {
+    int i;
     for (int i = 0; s[i]; i++) {
         if (!(s[i] >= 'a' && s[i] <= 'z') &&
             !(s[i] >= 'A' && s[i] <= 'Z') &&
