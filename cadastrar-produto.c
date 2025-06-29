@@ -1,6 +1,12 @@
 /*BIBLIOTECAS*/
 #include "Drive-Thru-Lib.h"
 
+/* Variáveis */
+char entrada[50];
+float custoProduto;
+int possuiErro;
+
+
 /* PROTOPIPOS DE FUNCOES */
 void cadastrar_produto(void);
 void gravaArq (void);
@@ -39,15 +45,41 @@ do {
     if (!valida_simples(produto.Nomeprod))
         printf("Entrada inválida. Tente novamente.\n");
 } while (!valida_simples(produto.Nomeprod)); 
+  
+	do {
+    possuiErro = 0;
+    custoProduto = 0;
+    int indice = 0;
+    int encontrouSeparador = 0;
+    int casasDecimais = 0;
 
-	    
- 
-	    
+    printf("\nCusto do produto : ");
+    fgets(entrada, 50, stdin);
 
-        printf("\nCusto do produto    : ");
-        fflush(stdin);
-        scanf("%f", &produto.Custoprod);
+    while (entrada[indice] && entrada[indice] != '\n') {
+        char caractere = entrada[indice];
 
+        if (caractere >= '0' && caractere <= '9') {
+            custoProduto = custoProduto * 10 + (caractere - '0');
+            if (encontrouSeparador) casasDecimais++;
+        } else if (caractere == '.' || caractere == ',') {
+            if (encontrouSeparador) possuiErro = 1;
+            encontrouSeparador = 1;
+        } else {
+            possuiErro = 1;
+        }
+
+        indice++;
+    }
+
+    if (!possuiErro) {
+        while (casasDecimais--) custoProduto /= 10;
+        produto.Custoprod = custoProduto;
+    } else {
+        printf("Valor inválido. Digite novamente apenas números e um separador decimal.\n");
+    }
+
+} while (possuiErro);
         gravaArq();
 
         printf("\nDeseja cadastrar outro produto? [0=NAO]:");
