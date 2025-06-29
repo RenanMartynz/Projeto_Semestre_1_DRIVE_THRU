@@ -31,3 +31,9 @@ typedef struct
 	char Formapgto[8+1];	
 } PEDIDO;
 PEDIDO cliente;
+// Posicao do pedido no arquivo
+typedef struct
+{
+	int Codpgto, Poscod;
+} ENDERECO;
+ENDERECO posicao;

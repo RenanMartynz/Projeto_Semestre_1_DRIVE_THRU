@@ -33,7 +33,7 @@ int confirma()
 		// Valida se arquivo foi aberto corretamente
 		if(Arq == NULL)
 		{
-			printf("\nArquivo PRODUTOS.DAT nao foi aberto com sucesso ou nao ha produtos");
+			printf("\nArquivo PRODUTOS.DAT nao foi acessado com sucesso");
 			getch();
 		}
 		else
@@ -48,10 +48,10 @@ int confirma()
 		else
 		// Pede confirmacao
 		{
-			printf("\nTem certeza que deseja remover %s [0=Nao]?", produto.Nomeprod);
+			printf("\nTem certeza que deseja remover %s [0=Nao]? ", produto.Nomeprod);
 			fflush(stdin);
-			scanf("%i", op);
-			if (op!=0)
+			scanf("%c", &op);
+			if (op!='0')
 			{
 				// Realiza a remocao
 				return 0;
@@ -69,9 +69,9 @@ void remove_prod (int flag)
 	if(flag==0)
 	{
 		fseek(Arq, (prod-1)*sizeof(produto), SEEK_SET);
+		printf("\nProduto %s removido com sucesso", produto.Nomeprod);
 		produto.Codprod = 0;
 		fwrite(&produto.Codprod, sizeof(produto.Codprod), 1, Arq);
-		printf("\nProduto %i removido com sucesso");
 		getch();
 	}
 	fclose (Arq);
