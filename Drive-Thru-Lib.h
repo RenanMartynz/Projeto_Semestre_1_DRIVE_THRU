@@ -1,11 +1,13 @@
 // BIBLIOTECAS
 #include <stdio.h>
-#include <locale.h>
 #include <stdlib.h> 
 #include <conio.h> 
 #include <string.h>
 
-// VARI�VEIS GLOBAIS
+// CONSTANTES
+#define TAMANHOFILA 4
+
+// VARIAVEIS GLOBAIS
 FILE *Arq, *Relat;
 char op;
 
@@ -29,3 +31,9 @@ typedef struct
 	char Formapgto[8+1];	
 } PEDIDO;
 PEDIDO cliente;
+// Posicao do pedido no arquivo
+typedef struct
+{
+	int Codpgto, Poscod;
+} ENDERECO;
+ENDERECO posicao;
