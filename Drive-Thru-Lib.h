@@ -1,14 +1,13 @@
 // BIBLIOTECAS
 #include <stdio.h>
-#include <locale.h>
 #include <stdlib.h> 
 #include <conio.h> 
 #include <string.h>
-#include <ctype.h>
-// CONSTANTES
-#define TAMANHONOMEPROD 100
 
-// VARIÁVEIS
+// CONSTANTES
+#define TAMANHOFILA 4
+// VARIAVEIS GLOBAIS
+FILE *Arq, *Relat;
 char op;
 
 // ESTRUTURAS DE DADOS
@@ -16,6 +15,24 @@ char op;
 typedef struct 
 {
 	int Codprod;
-	char Nomeprod[TAMANHONOMEPROD + 1];
+	char Nomeprod[100+1];
 	float Custoprod;	
 } CARDAPIO;
+CARDAPIO produto;
+// Pedido
+typedef struct 
+{
+	int Codpgto, Codprod;
+	char Nomeprod[100+1];
+	float Custoprod;
+	int Quantprod;
+	float Valortotalprod, Valorpgto;
+	char Formapgto[8+1];	
+        char Numerocartao[16+1];
+} PEDIDO;
+PEDIDO cliente;
+typedef struct {
+    char NumeroCartao[16+1];
+    int Codpgto;
+}DADOSCARTAO;
+DADOSCARTAO cartao;
