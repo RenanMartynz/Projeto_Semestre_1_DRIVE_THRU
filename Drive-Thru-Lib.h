@@ -37,3 +37,9 @@ typedef struct
 	int Codpgto, Poscod;
 } ENDERECO;
 ENDERECO posicao;
+// Cartao
+typedef struct {
+    char NumeroCartao[16+1];
+    int Codpgto;
+}DADOSCARTAO;
+DADOSCARTAO cartao;
