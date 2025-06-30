@@ -47,7 +47,46 @@ void finalizar_ped (void)
 	}
  fseek(Arq, (final_pedido-1)*sizeof(cliente), SEEK_SET);
  fread(&cliente, sizeof(cliente), 1, Arq);
- cliente.Formapgto = ***COLOCAR FORMA DE PAGAMENTO***;
+
+//  Logica para obter e validar a forma de pagamento 
+    printf("\nQual sera a forma de pagamento?");
+
+    // Loop para garantir que o usuario digite uma opcao valida
+    do {
+        printf("\nOpcoes: 'cartao'(sem til), 'dinheiro' ou 'pix': ");
+
+        // LE A ENTRADA DE FORMA SEGURA COM fgets
+        if (fgets(forma_pagamento_digitada, MAX_INPUT_LEN, stdin) == NULL) {
+            printf("Erro ao ler a entrada. Tente novamente.\n");
+            continue; // Pula para a prkxima tentativa
+        }
+
+        // Remove o caractere de nova linha '\n' que fgets pode incluir
+        forma_pagamento_digitada[strcspn(forma_pagamento_digitada, "\n")] = 0;
+
+        // --- VERIFICACAO SIMPLIFICADA COM _stricmp ---
+        // _stricmp (ou stricmp) compara sem diferenciar maiusculas/minusculas.
+        // Retorna 0 se as strings forem iguais.
+        if (_stricmp(forma_pagamento_digitada, "cartao") == 0) {
+            strcpy(cliente.Formapgto, "CARTAO"); // Armazena a forma padronizada
+            printf("Forma de pagamento selecionada: Cartao.\n");
+            break; // Sai do loop do-while
+        } else if (_stricmp(forma_pagamento_digitada, "dinheiro") == 0) {
+            strcpy(cliente.Formapgto, "DINHEIRO");
+            printf("Forma de pagamento selecionada: Dinheiro.\n");
+            break; // Sai do loop do-while
+        } else if (_stricmp(forma_pagamento_digitada, "pix") == 0) {
+            strcpy(cliente.Formapgto, "PIX");
+            printf("Forma de pagamento selecionada: PIX.\n");
+            break; // Sai do loop do-while
+        } else {
+            printf("Opcao invalida. Por favor, digite uma das opcoes listadas.\n");
+        }
+    } while (1); // Loop infinito que so e quebrado por um 'break' valido
+
+
+
+
  fseek(Arq, (final_pedido-1)*sizeof(cliente), SEEK_SET);
  fwrite(&cliente, sizeof(cliente), 1, Arq);
  // CODIGO DA COBRANÇA DE PAGAMENTO
