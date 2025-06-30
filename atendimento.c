@@ -48,41 +48,72 @@ void finalizar_ped (void)
  fseek(Arq, (final_pedido-1)*sizeof(cliente), SEEK_SET);
  fread(&cliente, sizeof(cliente), 1, Arq);
 
+
 //  Logica para obter e validar a forma de pagamento 
     printf("\nQual sera a forma de pagamento?");
 
-    // Loop para garantir que o usuario digite uma opcao valida
+    // Loop para garantir que o usuario digite uma opção valida
     do {
-        printf("\nOpcoes: 'cartao'(sem til), 'dinheiro' ou 'pix': ");
+        printf("\nOpcoes: 'cartao' (sem acentos), 'dinheiro' ou 'pix': ");
 
         // LE A ENTRADA DE FORMA SEGURA COM fgets
-        if (fgets(forma_pagamento_digitada, MAX_INPUT_LEN, stdin) == NULL) {
-            printf("Erro ao ler a entrada. Tente novamente.\n");
-            continue; // Pula para a prkxima tentativa
+        if (fgets(forma_pagamento_temporaria, MAX_INPUT_LEN, stdin) == NULL) {
+            printf("Erro ao ler a entrada da forma de pagamento. Tente novamente.\n");
+            continue; // Pula para a proxima tentativa
         }
 
         // Remove o caractere de nova linha '\n' que fgets pode incluir
-        forma_pagamento_digitada[strcspn(forma_pagamento_digitada, "\n")] = 0;
+        forma_pagamento_temporaria[strcspn(forma_pagamento_temporaria, "\n")] = 0;
 
-        // --- VERIFICACAO SIMPLIFICADA COM _stricmp ---
-        // _stricmp (ou stricmp) compara sem diferenciar maiusculas/minusculas.
-        // Retorna 0 se as strings forem iguais.
-        if (_stricmp(forma_pagamento_digitada, "cartao") == 0) {
-            strcpy(cliente.Formapgto, "CARTAO"); // Armazena a forma padronizada
+        // --- VERIFICAÇÃO E ATRIBUIÇÃO ---
+        if (_stricmp(forma_pagamento_temporaria, "cartao") == 0) {
+            strcpy(cliente.Formapgto, "CARTAO");
             printf("Forma de pagamento selecionada: Cartao.\n");
-            break; // Sai do loop do-while
-        } else if (_stricmp(forma_pagamento_digitada, "dinheiro") == 0) {
+
+            // --- LOGICA ESPECÍFICA PARA CARTAO: PEDIR E VALIDAR NÚMERO ---
+            int numero_valido = 0; // Flag para validar o número do cartao
+            do {
+                printf("Por favor, digite o numero do cartao (máximo 16 dígitos): ");
+                // Le o numero do cartao de forma segura
+                if (fgets(numero_cartao_temp, MAX_INPUT_LEN, stdin) == NULL) {
+                    printf("Erro ao ler o número do cartao. Tente novamente.\n");
+                    continue; // Pula para a prlxima iteracao do loop interno
+                }
+                numero_cartao_temp[strcspn(numero_cartao_temp, "\n")] = 0; // Remove o '\n'
+
+                // Validacao: verifica se nao esta vazio E se tem no maximo 16 digitos
+                if (strlen(numero_cartao_temp) > 0 && strlen(numero_cartao_temp) <= 16) {
+                    // Opcional: Adicionar validacao para verificar se sao APENAS digitos
+                    // For (int i = 0; numero_cartao_temp[i] != '\0'; i++) {
+                    //     if (!isdigit(numero_cartao_temp[i])) {
+                    //         printf("Número do cartao invalido. Digite apenas numeros.\n");
+                    //         numero_valido = 0;
+                    //         break; // Sai do loop interno, pedindo novamente
+                    //     }
+                    // }
+                    // If (numero_valido == 0) continue; // Volta para o do-while interno
+                    
+                    strcpy(cliente.Numerocartao, numero_cartao_temp); // Salva o numero do cartao na struct
+                    printf("Numero do cartao registrado.\n");
+                    numero_valido = 1; // Marca como valido para sair do loop interno
+                } else {
+                    printf("Numero do cartao invalido. Deve ter entre 1 e 16 digitos.\n");
+                }
+            } while (numero_valido == 0); // Repete enquanto o numero do cartão nao for valido
+
+            break; // Sai do loop principal 'do-while' (da forma de pagamento)
+        } else if (_stricmp(forma_pagamento_temporaria, "dinheiro") == 0) {
             strcpy(cliente.Formapgto, "DINHEIRO");
             printf("Forma de pagamento selecionada: Dinheiro.\n");
             break; // Sai do loop do-while
-        } else if (_stricmp(forma_pagamento_digitada, "pix") == 0) {
+        } else if (_stricmp(forma_pagamento_temporaria, "pix") == 0) {
             strcpy(cliente.Formapgto, "PIX");
             printf("Forma de pagamento selecionada: PIX.\n");
             break; // Sai do loop do-while
         } else {
             printf("Opcao invalida. Por favor, digite uma das opcoes listadas.\n");
         }
-    } while (1); // Loop infinito que so e quebrado por um 'break' valido
+    } while (1); // Loop infinito que so quebrado por um 'break' válido
 
 
 
