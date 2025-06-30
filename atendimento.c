@@ -1,8 +1,11 @@
 // BIBLIOTECAS
 #include "Drive-Thru-Lib.h"
 
+// CONSTANTES
+#define TAMANHONENTRADA 9
+
 // VARIAVEIS GLOBAIS DO PROGRAMA
-int cliente_atual, i=1, fila[TAMANHOFILA], inicio_fila=0, final_fila=0;
+int cliente_atual, i=1, fila[TAMANHOFILA], inicio_fila=0, final_fila=0, codped;
 long  tamanho_arquivo, inicio_pedido, final_pedido; 
 char op2;
 
@@ -36,9 +39,118 @@ void administrar_fila (void)
 
 }
 
+// Substitui os digitos de posicao 5 a 12 por asteriscos (*)
+void mascarar_cartao(char *numero) { //rebece o ponteiro para o caractere da string, permitindo modificar diretamente o conteudo do numero do cartao original
+    for (int i = 4; i < 12; i++) {
+        numero[i] = '*';
+    }
+}
+
 void finalizar_ped (void)
 {
-	Arq = fopen ("PAGAMENTOS.DAT", "rb+");
+	char numero_cartao[30];     // Variavel temporaria para ler o numero do cartao
+    int numero_valido = 0;      // Flag para validar o numero do cartao
+    int opcao_pgto = 0;			// para pegar a opcao de pagamento do usuario
+    numero_valido = 1;			// para verificar se o cartao so contem digitos numericos
+    int i;
+    // Abre o arquivo de pagamentos para leitura e escrita binaria
+    Arq = fopen("PAGAMENTOS.DAT", "rb+");
+    if (Arq == NULL) {
+        printf("Erro ao abrir PAGAMENTOS.DAT\n");
+        getch();
+        exit(0); // Sai do programa em caso de erro
+    }
+
+    // Posiciona no ultimo registro do pedido
+    fseek(Arq, (final_pedido - 1) * sizeof(PEDIDO), SEEK_SET);
+    fread(&cliente, sizeof(PEDIDO), 1, Arq); // Le esse registro para editar
+
+    // Menu de opcoes para o usuario escolher a forma de pagamento
+    printf("\nSelecione a forma de pagamento:\n");
+    printf(" 1 - dinheiro\n 2 - pix\n 3 - credito\n 4 - debito\n");
+
+    
+    do {
+        printf("Opcao (1-4): ");
+        scanf("%d", &opcao_pgto);
+        fflush(stdin); // Limpa o buffer do teclado
+    } while (opcao_pgto < 1 || opcao_pgto > 4); // Garante que a entrada esta entre 1 e 4
+
+    // Atribui a string da forma de pagamento conforme a opcao escolhida
+    switch (opcao_pgto) {
+        case 1:
+            strcpy(cliente.Formapgto, "dinheiro");
+            break;
+        case 2:
+            strcpy(cliente.Formapgto, "pix");
+            break;
+        case 3:
+            strcpy(cliente.Formapgto, "credito");
+            break;
+        case 4:
+            strcpy(cliente.Formapgto, "debito");
+            break;
+    }
+
+    // Se for cartao (credito ou debito), realiza a validacao e registro
+    if (opcao_pgto == 3 || opcao_pgto == 4) {
+        do {
+            // Solicita o numero do cartao
+            printf("Digite o numero do cartao (16 digitos): ");
+            fgets(numero_cartao, sizeof(numero_cartao), stdin);
+            numero_cartao[strcspn(numero_cartao, "\n")] = '\0'; // Remove '\n'
+
+            // Verifica se o tamanho e exatamente 16 digitos
+            if (strlen(numero_cartao) != 16) {
+                printf("Cartao invalido. Deve conter exatamente 16 digitos.\n");
+                continue;
+            }
+
+            // Verifica se todos os caracteres sao digitos numericos
+            
+            for (i = 0; i < 16; i++) {
+                if (!isdigit(numero_cartao[i])) { //verifica se um caractere e um digito numerico 
+                    numero_valido = 0;
+                    printf("Cartao invalido. Digite apenas numeros.\n"); //mensagem de erro se nao for
+                    break;
+                }
+            }
+        } while (!numero_valido); // Repete enquanto o numero for invalido
+
+        // Aplica a mascara nos digitos do meio
+        mascarar_cartao(numero_cartao);
+
+        // Abre o arquivo CARTOES.DAT para acrescentar dados
+        FILE *cartoes = fopen("CARTOES.DAT", "ab");
+        if (cartoes == NULL) {
+            printf("Erro ao abrir CARTOES.DAT\n");
+            fclose(Arq);
+            exit(1);
+        }
+
+        // Preenche a estrutura do cartao com os dados
+        strcpy(cartao.NumeroCartao, numero_cartao); //joga as informacoes da variavel temporaria para a original
+        cartao.Codpgto = cliente.Codpgto; // Garante que o pedido associado e valido
+
+        // Grava o cartao mascarado no arquivo
+        fwrite(&cartao, sizeof(DADOSCARTAO), 1, cartoes);
+        fclose(cartoes);
+        printf("Cartao registrado com sucesso.\n");
+    }
+
+    // Atualiza o campo Formapgto no ultimo registro do pedido
+    fseek(Arq, (final_pedido - 1) * sizeof(PEDIDO), SEEK_SET);
+    fwrite(&cliente, sizeof(PEDIDO), 1, Arq);
+    fclose(Arq); // Fecha o arquivo PAGAMENTOS.DAT
+
+    printf("Pagamento do pedido %03d registrado com sucesso!\n", cliente.Codpgto);
+    getch(); // Espera tecla para continuar
+	
+	
+	entregar_pedido(cliente.Formapgto); //chama a funcao entregar pedido
+
+	
+/*Arq = fopen ("PAGAMENTOS.DAT", "rb+");
  if (Arq == NULL)
 	{
 		printf("Arquivo PAGAMENTOS.DAT nao foi acessado com sucesso");
@@ -47,8 +159,9 @@ void finalizar_ped (void)
 	}
  fseek(Arq, (final_pedido-1)*sizeof(cliente), SEEK_SET);
  fread(&cliente, sizeof(cliente), 1, Arq);
-
-
+// cliente.Formapgto = ***COLOCAR FORMA DE PAGAMENTO***;
+ fseek(Arq, (final_pedido-1)*sizeof(cliente), SEEK_SET);
+ fwrite(&cliente, sizeof(cliente), 1, Arq);
 //  Logica para obter e validar a forma de pagamento 
     printf("\nQual sera a forma de pagamento?");
 
@@ -57,7 +170,7 @@ void finalizar_ped (void)
         printf("\nOpcoes: 'cartao' (sem acentos), 'dinheiro' ou 'pix': ");
 
         // LE A ENTRADA DE FORMA SEGURA COM fgets
-        if (fgets(forma_pagamento_temporaria, MAX_INPUT_LEN, stdin) == NULL) {
+        if (fgets(forma_pagamento_temporaria, TAMANHONENTRADA, stdin) == NULL) {
             printf("Erro ao ler a entrada da forma de pagamento. Tente novamente.\n");
             continue; // Pula para a proxima tentativa
         }
@@ -65,35 +178,34 @@ void finalizar_ped (void)
         // Remove o caractere de nova linha '\n' que fgets pode incluir
         forma_pagamento_temporaria[strcspn(forma_pagamento_temporaria, "\n")] = 0;
 
-        // --- VERIFICAÇÃO E ATRIBUIÇÃO ---
+        // --- VERIFICACAO E ATRIBUICAO ---
         if (_stricmp(forma_pagamento_temporaria, "cartao") == 0) {
             strcpy(cliente.Formapgto, "CARTAO");
             printf("Forma de pagamento selecionada: Cartao.\n");
 
-            // --- LOGICA ESPECÍFICA PARA CARTAO: PEDIR E VALIDAR NÚMERO ---
-            int numero_valido = 0; // Flag para validar o número do cartao
+            // --- LOGICA ESPECIfICA PARA CARTAO: PEDIR E VALIDAR NUMERO ---
+            
             do {
-                printf("Por favor, digite o numero do cartao (máximo 16 dígitos): ");
+                printf("Por favor, digite o numero do cartao (maximo 16 digitos): ");
                 // Le o numero do cartao de forma segura
-                if (fgets(numero_cartao_temp, MAX_INPUT_LEN, stdin) == NULL) {
-                    printf("Erro ao ler o número do cartao. Tente novamente.\n");
-                    continue; // Pula para a prlxima iteracao do loop interno
+                if (fgets(numero_cartao_temp, TAMANHONENTRADA, stdin) == NULL) {
+                    printf("Erro ao ler o numero do cartao. Tente novamente.\n");
+                    continue; // Pula para a proxima iteracao do loop interno
                 }
                 numero_cartao_temp[strcspn(numero_cartao_temp, "\n")] = 0; // Remove o '\n'
-
                 // Validacao: verifica se nao esta vazio E se tem no maximo 16 digitos
-                if (strlen(numero_cartao_temp) > 0 && strlen(numero_cartao_temp) <= 16) {
+                if (strlen(numero_cartao_temp) == 16) {
                     // Opcional: Adicionar validacao para verificar se sao APENAS digitos
                     // For (int i = 0; numero_cartao_temp[i] != '\0'; i++) {
                     //     if (!isdigit(numero_cartao_temp[i])) {
-                    //         printf("Número do cartao invalido. Digite apenas numeros.\n");
+                    //         printf("Numero do cartao invalido. Digite apenas numeros.\n");
                     //         numero_valido = 0;
                     //         break; // Sai do loop interno, pedindo novamente
                     //     }
                     // }
                     // If (numero_valido == 0) continue; // Volta para o do-while interno
                     
-                    strcpy(cliente.Numerocartao, numero_cartao_temp); // Salva o numero do cartao na struct
+                    strcpy(cartao.Numerocartao, numero_cartao_temp); // Salva o numero do cartao na struct
                     printf("Numero do cartao registrado.\n");
                     numero_valido = 1; // Marca como valido para sair do loop interno
                 } else {
@@ -113,21 +225,40 @@ void finalizar_ped (void)
         } else {
             printf("Opcao invalida. Por favor, digite uma das opcoes listadas.\n");
         }
-    } while (1); // Loop infinito que so quebrado por um 'break' válido
-
-
-
-
- fseek(Arq, (final_pedido-1)*sizeof(cliente), SEEK_SET);
- fwrite(&cliente, sizeof(cliente), 1, Arq);
- // CODIGO DA COBRANÇA DE PAGAMENTO
+    } while (1); // Loop infinito que so quebrado por um 'break' valido
  fclose(Arq);
+ */
 }
+
+//função faz a compação 
+void entregar_pedido(const char *forma) {  //forma e um ponteiro que aponta para uma string, ele pode usala mais nao altera-la
+    if (strcmp(forma, "dinheiro") == 0) {
+        system("color 2F"); // coloca cor verde se for dinheiro 
+        printf("\n\nPEDIDO PAGO COM DINHEIRO\n");
+    } else if (strcmp(forma, "pix") == 0) {
+        system("color 1F"); // coloca cor azul se for dinheiro 
+        printf("\n\nPEDIDO PAGO COM PIX\n");
+    } else if (strcmp(forma, "credito") == 0) {
+        system("color 5F"); // coloca cor verde se for dinheiro coloca cor lilas
+        printf("\n\nPEDIDO PAGO COM CARTAO DE CREDITO\n");
+    } else if (strcmp(forma, "debito") == 0) {
+        system("color 5F");// coloca cor verde se for dinheiro coloca cor lilas
+        printf("\n\nPEDIDO PAGO COM CARTAO DE DEBITO\n");
+    } else {
+        system("color 0F"); // deixa a cor branca
+        printf("\n\nPEDIDO PAGO\n");
+    }
+    getch();
+    system("color 0F");
+}
+
+
 
 void remover_prod (void)
 {
+	float valorped;
 	Arq = fopen("PAGAMENTOS.DAT", "rb+");
- if (Arq == NULL)
+	if (Arq == NULL)
 	{
 		printf("Arquivo PAGAMENTOS.DAT nao foi acessado com sucesso");
 		getch();
@@ -140,29 +271,55 @@ void remover_prod (void)
 	for (i=0;final_pedido-inicio_pedido!=i;i++)
 	{
 		fread(&cliente, sizeof(cliente), 1, Arq);
+		if(cliente.Codprod!=0)
+		{
 		printf("\n%i\t%i\t%s\t\tR$%.2f\t\t%i\t\t\tR$%.2f", i+1,
 		cliente.Codprod, cliente.Nomeprod, cliente.Custoprod, cliente.Quantprod, cliente.Valortotalprod);
+		}
 	}
 	printf("\nTotal da compra:\tR$%.2f", cliente.Valorpgto);
 	printf("\n==================================================");
-do
-{
-printf("\nCodigo do pedido [0=Voltar]: ");
-}
-	while(scanf("%c", &op2)!=1 && op2 >= 0);
-if (op2 == 0)
-{
-fclose(Arq);
-return;
-}
-fclose(Arq);
-
+	do
+	{
+		do	
+		{
+			printf("\nCodigo do pedido [0=Voltar]: ");
+			fflush(stdin);
+		}
+		while(scanf("%i", &codped)!=1 && codped >= 0 && codped <= i);
+		if (codped == 0)
+		{
+			fclose(Arq);
+			return;
+		}
+		fseek(Arq, (inicio_pedido+codped-1)*sizeof(cliente), SEEK_SET);
+		fread(&cliente, sizeof(cliente), 1, Arq);
+	}
+	while (cliente.Codprod==0);
+	valorped=cliente.Valortotalprod;
+	fflush(stdin);
+	printf("\nTem certeza que deseja remover %i*%s [0=Voltar]", cliente.Quantprod, cliente.Nomeprod);
+	scanf("%c", &op2);
+	if (op2 == '0')
+	{
+		fclose(Arq);
+		return;
+	}
+	fseek(Arq, (inicio_pedido+codped-1)*sizeof(cliente), SEEK_SET);
+	cliente.Codprod=0;
+	fwrite(&cliente, sizeof(cliente), 1, Arq);
+	fseek(Arq, (final_pedido-1)*sizeof(cliente), SEEK_SET);
+	fread(&cliente, sizeof(cliente), 1, Arq);
+	fseek(Arq, (final_pedido-1)*sizeof(cliente), SEEK_SET);
+	cliente.Valorpgto=cliente.Valorpgto-valorped;
+	fwrite(&cliente, sizeof(cliente), 1, Arq);
+	fclose(Arq);
 }
 
 void adicionar_prod (void)
 {
 	// Processo de acrescimo de produto no pedido
-	int codped, quantped;
+	int quantped;
 	system("cls");
 	Arq = fopen("PRODUTOS.DAT", "rb");
 	if (Arq == NULL)
@@ -291,8 +448,11 @@ void atendimento (void)
 	for (i=0;final_pedido-inicio_pedido!=i;i++)
 	{
 		fread(&cliente, sizeof(cliente), 1, Arq);
+		if (cliente.Codprod!=0)
+		{
 		printf("\n%i\t%s\t\tR$%.2f\t\t%i\t\t\tR$%.2f", 
 		cliente.Codprod, cliente.Nomeprod, cliente.Custoprod, cliente.Quantprod, cliente.Valortotalprod);
+		}
 	}
 	printf("\nTotal da compra:\tR$%.2f", cliente.Valorpgto);
 	printf("\n==================================================");
