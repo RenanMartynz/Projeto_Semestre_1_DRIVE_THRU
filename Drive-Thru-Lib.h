@@ -28,7 +28,6 @@ typedef struct
 	int Quantprod;
 	float Valortotalprod, Valorpgto;
 	char Formapgto[8+1];	
-        char Numerocartao[16+1];
 } PEDIDO;
 PEDIDO cliente;
 typedef struct {
