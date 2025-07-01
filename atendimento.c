@@ -145,9 +145,6 @@ void finalizar_ped (void)
 
     printf("Pagamento do pedido %03d registrado com sucesso!\n", cliente.Codpgto);
     getch(); // Espera tecla para continuar
-	
-	
-	//chama a funcao entregar pedido
 
     if (strcmp(cliente.Formapgto, "dinheiro") == 0) {
          // coloca cor verde se for dinheiro 
@@ -165,92 +162,6 @@ void finalizar_ped (void)
         printf("\n\nPEDIDO PAGO\n");
     }
     getch();
-    
-	
-/*Arq = fopen ("PAGAMENTOS.DAT", "rb+");
- if (Arq == NULL)
-	{
-		printf("Arquivo PAGAMENTOS.DAT nao foi acessado com sucesso");
-		getch();
-		exit(0);
-	}
- fseek(Arq, (final_pedido-1)*sizeof(cliente), SEEK_SET);
- fread(&cliente, sizeof(cliente), 1, Arq);
-// cliente.Formapgto = ***COLOCAR FORMA DE PAGAMENTO***;
- fseek(Arq, (final_pedido-1)*sizeof(cliente), SEEK_SET);
- fwrite(&cliente, sizeof(cliente), 1, Arq);
-//  Logica para obter e validar a forma de pagamento 
-    printf("\nQual sera a forma de pagamento?");
-
-    // Loop para garantir que o usuario digite uma opção valida
-    do {
-        printf("\nOpcoes: 'cartao' (sem acentos), 'dinheiro' ou 'pix': ");
-
-        // LE A ENTRADA DE FORMA SEGURA COM fgets
-        if (fgets(forma_pagamento_temporaria, TAMANHONENTRADA, stdin) == NULL) {
-            printf("Erro ao ler a entrada da forma de pagamento. Tente novamente.\n");
-            continue; // Pula para a proxima tentativa
-        }
-
-        // Remove o caractere de nova linha '\n' que fgets pode incluir
-        forma_pagamento_temporaria[strcspn(forma_pagamento_temporaria, "\n")] = 0;
-
-        // --- VERIFICACAO E ATRIBUICAO ---
-        if (_stricmp(forma_pagamento_temporaria, "cartao") == 0) {
-            strcpy(cliente.Formapgto, "CARTAO");
-            printf("Forma de pagamento selecionada: Cartao.\n");
-
-            // --- LOGICA ESPECIfICA PARA CARTAO: PEDIR E VALIDAR NUMERO ---
-            
-            do {
-                printf("Por favor, digite o numero do cartao (maximo 16 digitos): ");
-                // Le o numero do cartao de forma segura
-                if (fgets(numero_cartao_temp, TAMANHONENTRADA, stdin) == NULL) {
-                    printf("Erro ao ler o numero do cartao. Tente novamente.\n");
-                    continue; // Pula para a proxima iteracao do loop interno
-                }
-                numero_cartao_temp[strcspn(numero_cartao_temp, "\n")] = 0; // Remove o '\n'
-                // Validacao: verifica se nao esta vazio E se tem no maximo 16 digitos
-                if (strlen(numero_cartao_temp) == 16) {
-                    // Opcional: Adicionar validacao para verificar se sao APENAS digitos
-                    // For (int i = 0; numero_cartao_temp[i] != '\0'; i++) {
-                    //     if (!isdigit(numero_cartao_temp[i])) {
-                    //         printf("Numero do cartao invalido. Digite apenas numeros.\n");
-                    //         numero_valido = 0;
-                    //         break; // Sai do loop interno, pedindo novamente
-                    //     }
-                    // }
-                    // If (numero_valido == 0) continue; // Volta para o do-while interno
-                    
-                    strcpy(cartao.Numerocartao, numero_cartao_temp); // Salva o numero do cartao na struct
-                    printf("Numero do cartao registrado.\n");
-                    numero_valido = 1; // Marca como valido para sair do loop interno
-                } else {
-                    printf("Numero do cartao invalido. Deve ter entre 1 e 16 digitos.\n");
-                }
-            } while (numero_valido == 0); // Repete enquanto o numero do cartão nao for valido
-
-            break; // Sai do loop principal 'do-while' (da forma de pagamento)
-        } else if (_stricmp(forma_pagamento_temporaria, "dinheiro") == 0) {
-            strcpy(cliente.Formapgto, "DINHEIRO");
-            printf("Forma de pagamento selecionada: Dinheiro.\n");
-            break; // Sai do loop do-while
-        } else if (_stricmp(forma_pagamento_temporaria, "pix") == 0) {
-            strcpy(cliente.Formapgto, "PIX");
-            printf("Forma de pagamento selecionada: PIX.\n");
-            break; // Sai do loop do-while
-        } else {
-            printf("Opcao invalida. Por favor, digite uma das opcoes listadas.\n");
-        }
-    } while (1); // Loop infinito que so quebrado por um 'break' valido
- fclose(Arq);
- */
-}
-
-//função faz a comparacao
-  //forma e um ponteiro que aponta para uma string, ele pode usala mais nao alt
-
-
 
 void remover_prod (void)
 {
