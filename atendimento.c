@@ -107,7 +107,7 @@ void finalizar_ped (void)
                 numero_valido = 0;
                 continue;
             }
-
+		//se nao for digito ele coloca 0 na variavel numero_valido que é diferente de 1 com declarado na variavel numero_valido
             for (i = 0; i < 16; i++) {
                 if (!isdigit(numero_cartao[i])) {
                     printf("Cartao invalido. Digite apenas numeros.\n");
