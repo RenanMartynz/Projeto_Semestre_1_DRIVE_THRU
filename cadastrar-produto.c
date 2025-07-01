@@ -26,19 +26,15 @@ int valida_simples(char *s) {
     return 1;
 }
 
-
-
-
 void cadastrar_produto(void) {
     char op;
 
     do {
         system("cls");
 	system("color 2f");
-
-	   
+	    
+   /*PEDE A DESCRICAO DO PRODUTO*/
 do {
-    /*PEDE A DESCRICAO DO PRODUTO*/
     printf("\nDescricao do produto (sem acento ou simbolo): ");
     fflush(stdin);
     fgets(produto.Nomeprod, sizeof(produto.Nomeprod), stdin);
@@ -59,25 +55,27 @@ do {
     fgets(entrada, 50, stdin);
 		
     // Itera sobre cada caractere da string de entrada ate o final da string ou uma nova linha
-    while (entrada[indice] && entrada[indice] != '\n') {
+    while (entrada[indice] && entrada[indice] != '\n') { // verifica se o caractere nao e \n
         char caractere = entrada[indice];
 
-        if (caractere >= '0' && caractere <= '9') {
-            custoProduto = custoProduto * 10 + (caractere - '0');
+        if (caractere >= '0' && caractere <= '9') { // Verifica se o caractere e um dígito numerico (de '0' a '9')
+            custoProduto = custoProduto * 10 + (caractere - '0'); //serve para transformar um caracter numerico como '5' pelo numero 5, ele pega um acaractere da tabela asc e tranforma no seu numero real
             if (encontrouSeparador) casasDecimais++;
-        } else if (caractere == '.' || caractere == ',') {
+        } else if (caractere == '.' || caractere == ',') { // Verifica se o caractere e um separador decimal valido (ponto ou virgula)
             if (encontrouSeparador) possuiErro = 1;
             encontrouSeparador = 1;
         } else {
             possuiErro = 1;
         }
 
-        indice++;
+        indice++; // avanca para o proximo caractere
     }
 
-    if (!possuiErro) {
+    if (!possuiErro) { // executa se posuir erro
+    // Divide o valor por 10 para cada casa decimal contada
+    // Exemplo: 1234 com 2 casas decimais vira 12.34
         while (casasDecimais--) custoProduto /= 10;
-        produto.Custoprod = custoProduto;
+        produto.Custoprod = custoProduto; // Atribui o valor final convertido ao campo da struct
     } else {
         printf("Valor inválido. Digite novamente apenas números e um separador decimal.\n");
     }
