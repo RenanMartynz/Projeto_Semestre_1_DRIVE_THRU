@@ -147,8 +147,25 @@ void finalizar_ped (void)
     getch(); // Espera tecla para continuar
 	
 	
-	entregar_pedido(cliente.Formapgto); //chama a funcao entregar pedido
+	//chama a funcao entregar pedido
 
+    if (strcmp(cliente.Formapgto, "dinheiro") == 0) {
+         // coloca cor verde se for dinheiro 
+        printf("\n\nPEDIDO PAGO COM \x1b[32mDINHEIRO\x1b[0m\n");
+    } else if (strcmp(cliente.Formapgto, "pix") == 0) {
+         // coloca cor azul se for pix 
+        printf("\n\nPEDIDO PAGO COM \x1b[34mPIX\x1b[0m\n");
+    } else if (strcmp(cliente.Formapgto, "credito") == 0) {
+         // coloca cor lilas se for credito 
+        printf("\n\nPEDIDO PAGO COM CARTAO DE \x1b[35mCREDITO\x1b[0m\n");
+    } else if (strcmp(cliente.Formapgto, "debito") == 0) {
+        // coloca cor lilas se for debito
+        printf("\n\nPEDIDO PAGO COM CARTAO DE \x1b[35mDEBITO\x1b[0m\n");
+    } else {
+        printf("\n\nPEDIDO PAGO\n");
+    }
+    getch();
+    
 	
 /*Arq = fopen ("PAGAMENTOS.DAT", "rb+");
  if (Arq == NULL)
@@ -230,27 +247,8 @@ void finalizar_ped (void)
  */
 }
 
-//função faz a compação 
-void entregar_pedido(const char *forma) {  //forma e um ponteiro que aponta para uma string, ele pode usala mais nao altera-la
-    if (strcmp(forma, "dinheiro") == 0) {
-        system("color 2F"); // coloca cor verde se for dinheiro 
-        printf("\n\nPEDIDO PAGO COM DINHEIRO\n");
-    } else if (strcmp(forma, "pix") == 0) {
-        system("color 1F"); // coloca cor azul se for dinheiro 
-        printf("\n\nPEDIDO PAGO COM PIX\n");
-    } else if (strcmp(forma, "credito") == 0) {
-        system("color 5F"); // coloca cor verde se for dinheiro coloca cor lilas
-        printf("\n\nPEDIDO PAGO COM CARTAO DE CREDITO\n");
-    } else if (strcmp(forma, "debito") == 0) {
-        system("color 5F");// coloca cor verde se for dinheiro coloca cor lilas
-        printf("\n\nPEDIDO PAGO COM CARTAO DE DEBITO\n");
-    } else {
-        system("color 0F"); // deixa a cor branca
-        printf("\n\nPEDIDO PAGO\n");
-    }
-    getch();
-    system("color 0F");
-}
+//função faz a comparacao
+  //forma e um ponteiro que aponta para uma string, ele pode usala mais nao alt
 
 
 
