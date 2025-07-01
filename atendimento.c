@@ -41,14 +41,15 @@ void administrar_fila (void)
 
 // Substitui os digitos de posicao 5 a 12 por asteriscos (*)
 void mascarar_cartao(char *numero) { //rebece o ponteiro para o caractere da string, permitindo modificar diretamente o conteudo do numero do cartao original
-    for (int i = 4; i < 12; i++) {
+    
+	for (i = 4; i < 12; i++) {
         numero[i] = '*';
     }
 }
 
 void finalizar_ped (void)
 {
-    char numero_cartao[30];     // Variavel temporaria para ler o numero do cartao
+    char numero_cartao[17];     // Variavel temporaria para ler o numero do cartao
     int numero_valido = 0;      // Flag para validar o numero do cartao
     int opcao_pgto = 0;			// para pegar a opcao de pagamento do usuario
     numero_valido = 1;			// para verificar se o cartao so contem digitos numericos
@@ -93,29 +94,28 @@ void finalizar_ped (void)
     }
 
     // Se for cartao (credito ou debito), realiza a validacao e registro
-    if (opcao_pgto == 3 || opcao_pgto == 4) {
+     if (opcao_pgto == 3 || opcao_pgto == 4) {
         do {
-            // Solicita o numero do cartao
+            numero_valido = 1;    // Assume inicialmente que o cartao e valido
             printf("Digite o numero do cartao (16 digitos): ");
-            fgets(numero_cartao, sizeof(numero_cartao), stdin);
-            numero_cartao[strcspn(numero_cartao, "\n")] = '\0'; // Remove '\n'
+            
+            fgets(numero_cartao, sizeof(numero_cartao), stdin); // fgets() le uma linha da entrada padrao (stdin), incluindo espacos e armazena na string. Eh mais segura que gets(), pois evita overflow.
+            numero_cartao[strcspn(numero_cartao, "\n")] = '\0';
 
-            // Verifica se o tamanho e exatamente 16 digitos
             if (strlen(numero_cartao) != 16) {
                 printf("Cartao invalido. Deve conter exatamente 16 digitos.\n");
+                numero_valido = 0;
                 continue;
             }
 
-            // Verifica se todos os caracteres sao digitos numericos
-            
             for (i = 0; i < 16; i++) {
-                if (!isdigit(numero_cartao[i])) { //verifica se um caractere e um digito numerico 
+                if (!isdigit(numero_cartao[i])) {
+                    printf("Cartao invalido. Digite apenas numeros.\n");
                     numero_valido = 0;
-                    printf("Cartao invalido. Digite apenas numeros.\n"); //mensagem de erro se nao for
                     break;
                 }
             }
-        } while (!numero_valido); // Repete enquanto o numero for invalido
+        } while (!numero_valido);
 
         // Aplica a mascara nos digitos do meio
         mascarar_cartao(numero_cartao);
@@ -162,6 +162,7 @@ void finalizar_ped (void)
         printf("\n\nPEDIDO PAGO\n");
     }
     getch();
+}
 
 void remover_prod (void)
 {
