@@ -22,3 +22,4 @@ void ver_cartoes_registrados(void) {
 
 
 //para chamar a função
+ver_cartoes_registrados();
