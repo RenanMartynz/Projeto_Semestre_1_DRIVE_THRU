@@ -48,7 +48,7 @@ void mascarar_cartao(char *numero) { //rebece o ponteiro para o caractere da str
 
 void finalizar_ped (void)
 {
-	char numero_cartao[30];     // Variavel temporaria para ler o numero do cartao
+    char numero_cartao[30];     // Variavel temporaria para ler o numero do cartao
     int numero_valido = 0;      // Flag para validar o numero do cartao
     int opcao_pgto = 0;			// para pegar a opcao de pagamento do usuario
     numero_valido = 1;			// para verificar se o cartao so contem digitos numericos
