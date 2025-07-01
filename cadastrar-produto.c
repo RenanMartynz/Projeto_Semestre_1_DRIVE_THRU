@@ -116,18 +116,18 @@ void gravaArq (void)
         exit(0);
     }
 
-    /* Mostra endereco do arquivo aberto (para debug) */
+    /* Mostra endereco do arquivo aberto */
     printf ("\nEndereco de PRODUTOS.DAT: %p", Arq);
 
-    /* Percorre o arquivo procurando por registro com Codigo 0 (espaco livre) */
+    /* Percorre o arquivo procurando por registro com Codigo 0 */
     do { 
         fread(&c, sizeof(c), 1, Arq);
         if (c.Codprod == 0) { // Se encontrou lugar vazio
-            fseek(Arq, codigo_atual * sizeof(produto), SEEK_SET); // Posiciona para gravar
-            produto.Codprod = codigo_atual + 1; // Define codigo do produto (sequencial)
+            fseek(Arq, codigo_atual * sizeof(produto), SEEK_SET); 
+            produto.Codprod = codigo_atual + 1; // Define codigo do produto
             fwrite(&produto, sizeof(produto), 1, Arq); // Grava o produto no arquivo
-            fclose(Arq); // Fecha arquivo
-            exit(0);     // Sai do programa (pode mudar para retornar ao menu se quiser)
+            fclose(Arq); 
+            exit(0);     
         }
         codigo_atual++; // Incrementa codigo para proxima posicao
     } while (!feof(Arq)); // Continua enquanto nao chegar no final do arquivo
