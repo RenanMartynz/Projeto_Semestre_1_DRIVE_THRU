@@ -23,7 +23,7 @@ int valida_simples(char *s) {
              s[i] != ' ') 
             return 0;  // Se caractere invalido encontrado, retorna 0
     }
-    return 1; // Tudo certo, retorna 1
+    return 1; //  se estiver udo certo, retorna 1
 }
 
 /* Funcao principal para cadastrar produtos */
