@@ -1,0 +1,20 @@
+void ver_cartoes_registrados(void) {
+    FILE *cartoes = fopen("CARTOES.DAT", "rb"); // Abre o arquivo em modo leitura binária
+
+    if (cartoes == NULL) {
+        printf("Erro ao abrir o arquivo CARTOES.DAT\n");
+        return;
+    }
+
+    printf("\n=== CARTOES REGISTRADOS ===\n");
+    printf("Cód. Pagamento\tNumero do Cartao\n");
+    printf("---------------------------------\n");
+
+    // Lê os registros um a um
+    while (fread(&cartao, sizeof(DADOSCARTAO), 1, cartoes) == 1) {
+        printf("%08d\t%s\n", cartao.Codpgto, cartao.NumeroCartao);
+    }
+
+    fclose(cartoes);
+    getch(); // Espera o usuário apertar uma tecla
+}
