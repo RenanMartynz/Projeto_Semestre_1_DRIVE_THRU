@@ -1,3 +1,4 @@
+
 void ver_cartoes_registrados(void) {
     FILE *cartoes = fopen("CARTOES.DAT", "rb"); // Abre o arquivo em modo leitura binária
 
@@ -18,3 +19,6 @@ void ver_cartoes_registrados(void) {
     fclose(cartoes);
     getch(); // Espera o usuário apertar uma tecla
 }
+
+
+//para chamar a função
