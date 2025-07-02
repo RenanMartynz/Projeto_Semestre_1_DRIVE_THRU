@@ -31,3 +31,15 @@ typedef struct
         char Numerocartao[16+1];
 } PEDIDO;
 PEDIDO cliente;
+// Posicao do pedido no arquivo
+typedef struct
+{
+	int Codpgto, Poscod;
+} ENDERECO;
+ENDERECO posicao;
+// Cartao
+typedef struct {
+    char NumeroCartao[16+1];
+    int Codpgto;
+}DADOSCARTAO;
+DADOSCARTAO cartao;

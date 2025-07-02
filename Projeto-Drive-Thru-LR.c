@@ -25,6 +25,7 @@ void solicitar_acao(void)
 	printf("\n==================================================");
 	printf("\nEscolha:");
 	// Recebe a escolha da acao desejada
+	fflush(stdin);
 	op = getche();
 	} while (op < '0' || op > '5');
 }
