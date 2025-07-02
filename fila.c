@@ -47,7 +47,11 @@ void gerenciar_fila(void)
 		}
 		fwrite(&posicao, sizeof(posicao), 1, Arq);
 	}
-
+fseek(Arq, inicio_fila*sizeof(posicao), SEEK_SET);
+fread(&posicao, sizeof(posicao), 1, Arq);
+fseek(Indice, posicao.Poscod*sizeof(posicao), SEEK_SET);
+fread(&posicao, sizeof(posicao), 1, Indice);
+fseek(Relat, posicao.Poscod*sizeof(cliente), SEEK_SET);
 	   if (strcmp(cliente.Formapgto, "dinheiro") == 0) 
 	{
     // coloca cor verde se for dinheiro 
