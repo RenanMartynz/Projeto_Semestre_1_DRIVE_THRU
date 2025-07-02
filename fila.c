@@ -16,13 +16,13 @@ void gerenciar_fila(void)
 	Relat = fopen ("PAGAMENTOS.DAT", "rb");
 	if (Indice==NULL)
 	{
-		printf("\nArquivo FILA.DAT nao foi acessado com sucesso");
+		printf("\nArquivo INDICE-CLIENTE.DAT nao foi acessado com sucesso");
 		getch();
 		exit(1);
 	}
 	if (Arq==NULL)
 	{
-		printf("\nArquivo FILA.DAT nao foi acessado com sucesso");
+		printf("\nArquivo PAGAMENTOS.DAT nao foi acessado com sucesso");
 		getch();
 		exit(1);
 	}
@@ -52,6 +52,11 @@ fread(&posicao, sizeof(posicao), 1, Arq);
 fseek(Indice, posicao.Poscod*sizeof(posicao), SEEK_SET);
 fread(&posicao, sizeof(posicao), 1, Indice);
 fseek(Relat, posicao.Poscod*sizeof(cliente), SEEK_SET);
+do
+{
+fread(&cliente, sizeof(cliente), 1, Relat);
+}
+while (strcmp(cliente.Formapgto, "0");
 	   if (strcmp(cliente.Formapgto, "dinheiro") == 0) 
 	{
     // coloca cor verde se for dinheiro 
@@ -69,6 +74,7 @@ fseek(Relat, posicao.Poscod*sizeof(cliente), SEEK_SET);
  	   } else {
  	       printf("\n\nPEDIDO PAGO\n");
   	  }
+getch();
   	  fclose(Indice);
   	  fclose(Arq);
   	  fclose(Relat);
