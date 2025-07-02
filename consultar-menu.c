@@ -13,16 +13,16 @@ void inicializa_relatorio(void)
 	Arq = fopen("PRODUTOS.DAT", "rb");
 	if (Arq == NULL)
 	{
-		printf("Arquivo PRODUTOS.DAT nao foi acessado com sucesso");
+		printf("\nArquivo PRODUTOS.DAT nao foi acessado com sucesso");
 		getch();
-		exit(0);
+		exit(1);
 	}
 	Relat = fopen("MENUPRODUTOS.TXT", "w");
 	if (Relat == NULL)
 	{
-		printf("Arquivo MENUPRODUTOS.TXT nao foi criado com sucesso");
+		printf("\nArquivo MENUPRODUTOS.TXT nao foi criado com sucesso");
 		getch();
-		exit(0);
+		exit(1);
 	}
 	// Monta cabecario do relatorio
 	fprintf(Relat, "==================================================");
