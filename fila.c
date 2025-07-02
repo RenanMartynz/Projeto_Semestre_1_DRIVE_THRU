@@ -120,6 +120,7 @@ void entrada_do_usuario(void)
 	}
 	fclose(Arq);
 	printf("\nDeseja atender o primeiro cliente [0=Nao]?");
+fflush(stdin);
 	scanf("%c", op);
 	getch();
 }
