@@ -22,13 +22,13 @@ void gerenciar_fila(void)
 	}
 	if (Arq==NULL)
 	{
-		printf("\nArquivo PAGAMENTOS.DAT nao foi acessado com sucesso");
+		printf("\nArquivo FILA.DAT nao foi acessado com sucesso");
 		getch();
 		exit(1);
 	}
 	if (Relat==NULL)
 	{
-		printf("\nArquivo FILA.DAT nao foi acessado com sucesso");
+		printf("\nArquivo PAGAMENTOS.DAT nao foi acessado com sucesso");
 		getch();
 		exit(1);
 	}
@@ -56,7 +56,7 @@ do
 {
 fread(&cliente, sizeof(cliente), 1, Relat);
 }
-while (strcmp(cliente.Formapgto, "0");
+while (strcmp(cliente.Formapgto, "0"));
 	   if (strcmp(cliente.Formapgto, "dinheiro") == 0) 
 	{
     // coloca cor verde se for dinheiro 
