@@ -60,7 +60,7 @@ while (strcmp(cliente.Formapgto, "0"));
 	   if (strcmp(cliente.Formapgto, "dinheiro") == 0) 
 	{
     // coloca cor verde se for dinheiro 
-        printf("\n\nPEDIDO PAGO COM \x1b[32mDINHEIRO\x1b[0m\n");
+        printf("\n\nPEDIDO %i PAGO COM \x1b[32mDINHEIRO\x1b[0m\n", cliente.Codpgto);
   	} else if (strcmp(cliente.Formapgto, "pix") == 0) 
 	  {
    	// coloca cor azul se for pix 
@@ -92,9 +92,9 @@ void entrada_do_usuario(void)
 	inicio_fila= posicao.Codpgto;
 	final_fila = posicao.Poscod;
 	printf("\nPedidos na fila: ");
-	if(final_fila!=0)
+	if(final_fila==0)
 	{
-	for(i=inicio_fila, j=1;j!=5;i++, j++)
+	for(i=inicio_fila, j=1;j!=TAMANHOFILA+1;i++, j++)
 	{
 		fseek(Arq, i*sizeof(posicao), SEEK_SET);
 		fread(&posicao, sizeof(posicao), 1, Arq);
