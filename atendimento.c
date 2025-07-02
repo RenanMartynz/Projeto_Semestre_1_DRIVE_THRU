@@ -394,7 +394,6 @@ void atendimento (void)
     }
 			break;
 		}
-
 }
 
 void configurar_pedido(void)
