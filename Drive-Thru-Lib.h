@@ -8,7 +8,7 @@
 #define TAMANHOFILA 4
 // VARIAVEIS GLOBAIS
 FILE *Arq, *Relat;
-char op;
+char op, op2;
 
 // ESTRUTURAS DE DADOS
 // Produtos
