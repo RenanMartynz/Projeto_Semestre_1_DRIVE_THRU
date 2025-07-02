@@ -35,6 +35,12 @@ void finalizar_ped (void)
     int opcao_pgto = 0;			// para pegar a opcao de pagamento do usuario
     numero_valido = 1;			// para verificar se o cartao so contem digitos numericos
     int i;
+   printf("\nTem certeza que deseja finalizar o pedido [0=Nao]? ");
+   scanf("%i", &op2);
+   if(op2=='0')
+   {
+     return;
+   }
     // Abre o arquivo de pagamentos para leitura e escrita binaria
     Arq = fopen("PAGAMENTOS.DAT", "rb+");
     if (Arq == NULL) {
@@ -42,10 +48,6 @@ void finalizar_ped (void)
         getch();
         exit(0); // Sai do programa em caso de erro
     }
-
-    // Posiciona no ultimo registro do pedido
-    fseek(Arq, (final_pedido - 1) * sizeof(PEDIDO), SEEK_SET);
-    fread(&cliente, sizeof(PEDIDO), 1, Arq); // Le esse registro para editar
 
     // Menu de opcoes para o usuario escolher a forma de pagamento
     printf("\nSelecione a forma de pagamento:\n");
@@ -117,7 +119,9 @@ void finalizar_ped (void)
         fclose(cartoes);
         printf("Cartao registrado com sucesso.\n");
     }
-
+    // Posiciona no ultimo registro do pedido
+    fseek(Arq, (final_pedido - 1) * sizeof(PEDIDO), SEEK_SET);
+    fread(&cliente, sizeof(PEDIDO), 1, Arq); // Le esse registro para editar
     // Atualiza o campo Formapgto no ultimo registro do pedido
     fseek(Arq, (final_pedido - 1) * sizeof(PEDIDO), SEEK_SET);
     fwrite(&cliente, sizeof(PEDIDO), 1, Arq);
