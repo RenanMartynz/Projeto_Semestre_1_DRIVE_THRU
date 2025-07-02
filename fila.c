@@ -34,9 +34,10 @@ void gerenciar_fila(void)
 	}
 	fread(&posicao, sizeof(posicao), 1, Arq);
 	if(posicao.Poscod==0)
-	{
+	{	
+posicao.Poscod=posicao.Codpgto;
+}
 		fseek(Arq, 0, SEEK_SET);
-		posicao.Poscod=posicao.Codpgto;
 		if(posicao.Codpgto!=TAMANHOFILA)
 		{
 			posicao.Codpgto++;
@@ -46,7 +47,8 @@ void gerenciar_fila(void)
 			posicao.Codpgto=1;
 		}
 		fwrite(&posicao, sizeof(posicao), 1, Arq);
-	}
+	
+
 fseek(Arq, inicio_fila*sizeof(posicao), SEEK_SET);
 fread(&posicao, sizeof(posicao), 1, Arq);
 fseek(Indice, posicao.Poscod*sizeof(posicao), SEEK_SET);
